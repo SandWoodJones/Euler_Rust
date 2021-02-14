@@ -39,3 +39,32 @@ pub fn fibonacci(n: i32) -> i32 {
 	}
 	p_second
 }
+
+pub fn length_of_number(mut n: i32) -> usize {
+	if n == 0 { return 1; }
+	let mut i = 0;
+
+	while n > 0 {
+		n /= 10; // by dividing by 10 each time, we effectively remove one of the columns of the 'n' number
+		i += 1;
+	}
+
+	i
+}
+
+pub fn is_palindrome(mut n: i32) -> bool {
+	if length_of_number(n) == 1 { return true; } // single-digit numbers are always palindromes.
+
+	let start = n;
+	let mut reverse = 0;
+	while n > 0 {
+		let last_digit = n % 10; // isolates the last digit of 'n', 10 is used since we're working with base-10 numbers
+		reverse = (reverse * 10) + last_digit; // by multiplying by 10 we make the 'ones' column the 'tens' column and so on
+		n /= 10; // now we remove the last digit of 'n' and continue the loop
+	}
+
+	if reverse == start {
+		return true;
+	}
+	false
+}
