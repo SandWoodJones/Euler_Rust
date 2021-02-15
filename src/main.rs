@@ -4,7 +4,7 @@ pub mod my_math;
 use problems::*;
 
 fn main() {
-	let answer6 = p6::answer();
+	let answer = p8::answer();
 
-	println!("{}", answer6);
+	println!("{}", answer);
 }

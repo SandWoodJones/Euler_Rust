@@ -29,6 +29,25 @@ pub fn is_prime(n: u64) -> bool {
 	}
 }
 
+pub fn get_prime(n: u64) -> u64 {
+	if n <= 2 {
+		return n+1;
+	}
+
+	let mut found = 2;
+	let mut i = 5;
+
+	loop {
+		if is_prime(i) {
+			found += 1;
+			if found == n {
+				return i;
+			}
+		}
+		i += 2;
+	}
+}
+
 pub fn fibonacci(n: i32) -> i32 {
 	if n <= 1 { return n; }
 
