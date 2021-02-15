@@ -1,8 +1,10 @@
-mod problem4;
+mod problems;
 pub mod my_math;
 
-fn main() {
-	let answer4 = problem4::answer();
+use problems::*;
 
-	println!("p4: {}", answer4);
+fn main() {
+	let answer6 = p6::answer();
+
+	println!("{}", answer6);
 }

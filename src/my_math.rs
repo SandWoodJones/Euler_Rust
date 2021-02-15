@@ -1,5 +1,9 @@
 pub fn trial_division(mut n: u64) -> Vec<u64> { // returns vector of all prime factors of 'n', if its length is 2, 'n' is prime
-	let mut v = vec![1];
+	if n <= 1 {
+		return vec![n];
+	}
+
+	let mut v = Vec::new();
 	while n % 2 == 0 { // divide by 2 until we can't anymore
 		v.push(2);
 		n /= 2;
@@ -14,13 +18,13 @@ pub fn trial_division(mut n: u64) -> Vec<u64> { // returns vector of all prime f
 			factor += 2; // by adding 2 here we're only using odd factors, skipping over multiples of 2
 		}
 	}
-	v.push(n);
+	if n != 1 { v.push(n); }
 	v
 }
 
 pub fn is_prime(n: u64) -> bool {
 	match trial_division(n).len() {
-		2 => true,
+		1 => true,
 		_ => false
 	}
 }
@@ -67,4 +71,20 @@ pub fn is_palindrome(mut n: i32) -> bool {
 		return true;
 	}
 	false
+}
+
+pub fn sum_of_squares(n: i32) -> i32 {
+	let mut sum = 0;
+	for i in 1 ..= n {
+		sum += i.pow(2);
+	}
+	sum
+}
+
+pub fn square_of_sum(n: i32) -> i32 {
+	let mut sum = 0;
+	for i in 1 ..= n {
+		sum += i;
+	}
+	sum.pow(2)
 }
