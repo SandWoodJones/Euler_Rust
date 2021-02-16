@@ -3,6 +3,8 @@
 	palindrome made from the product of two 3-digit numbers. */
 
 use crate::my_math::is_palindrome;
+
+#[allow(dead_code)]
 pub fn answer() -> i32 {
 	let mut largest = 0;
 	for i in 100 ..= 999 {

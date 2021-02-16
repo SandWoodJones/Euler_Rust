@@ -29,6 +29,18 @@ pub fn is_prime(n: u64) -> bool {
 	}
 }
 
+pub fn generate_primes(limit: u64) -> Vec<u64> {
+	let mut v = vec![2];
+	let mut i = 3;
+	while i <= limit {
+		if is_prime(i) {
+			v.push(i);
+		}
+		i += 2;
+	}
+	v
+}
+
 pub fn get_prime(n: u64) -> u64 {
 	if n <= 2 {
 		return n+1;
@@ -106,4 +118,13 @@ pub fn square_of_sum(n: i32) -> i32 {
 		sum += i;
 	}
 	sum.pow(2)
+}
+
+pub fn generate_py_triplet(n: i32, m: i32) -> Option<[i32; 3]> { // returns a pythagorean triple, from 2 numbers
+	if m <= n || n <= 0 { return None }
+	let a = m.pow(2) - n.pow(2);
+	let b = 2 * m * n;
+	let c = m.pow(2) + n.pow(2);
+
+	Some([a, b, c])
 }

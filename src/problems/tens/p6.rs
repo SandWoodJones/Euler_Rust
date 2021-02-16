@@ -6,6 +6,7 @@
 
 use crate::my_math::{square_of_sum, sum_of_squares};
 
+#[allow(dead_code)]
 pub fn answer() -> i32 {
 	square_of_sum(100) - sum_of_squares(100)
 }

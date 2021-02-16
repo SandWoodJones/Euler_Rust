@@ -4,6 +4,7 @@
 use crate::my_math::trial_division;
 use std::cmp::max;
 
+#[allow(dead_code)]
 pub fn answer() -> u64 {
 	let n: u64 = 600851475143;
 	let mut largest = 1;

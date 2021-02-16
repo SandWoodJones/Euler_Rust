@@ -2,6 +2,8 @@
 	from 1 to 10 without any remainder. What is the smallest positive number
 	that is evenly divisible by all of the numbers from 1 to 20? */
 
+
+#[allow(dead_code)]
 pub fn answer() -> i32 {
 	let mut result = 20;
 	loop {

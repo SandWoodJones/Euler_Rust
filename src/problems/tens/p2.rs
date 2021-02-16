@@ -5,6 +5,7 @@
 
 use crate::my_math::fibonacci;
 
+#[allow(dead_code)]
 pub fn answer() -> i32 {
 	let limit = 4_000_000;
 	let mut sum = 0;
