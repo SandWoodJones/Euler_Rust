@@ -1,10 +1,10 @@
 mod problems;
 pub mod my_math;
 
-use problems::tens::p10;
+use problems::twenties::p11;
 
 fn main() {
-	let answer = p10::answer();
+	let answer = p11::answer();
 
 	println!("{}", answer);
 }

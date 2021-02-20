@@ -2,6 +2,8 @@
 	below two million. */
 
 use crate::my_math::generate_primes;
+
+#[allow(dead_code)]
 pub fn answer() -> u64 {
 	let primes = generate_primes(2000000);
 	primes.iter().sum()
