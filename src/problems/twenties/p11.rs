@@ -3,6 +3,9 @@
 	of four adjacent numbers in the same direction (up, down, left, right, or diagonally)
 	in the 20×20 grid? */
 
+use enum_iterator::IntoEnumIterator;
+
+#[derive(IntoEnumIterator, Debug)]
 enum Direction {
 	Up,
 	Down,
@@ -38,15 +41,21 @@ pub fn answer() -> i32 {
 		20, 73, 35, 29, 78, 31, 90, 01, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 05, 54,
 		01, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 01, 89, 19, 67, 48 ];
 
-	let r = get_collection_from_direction(8, 6, &Direction::Dlr, 4, 20, 20);
-	let mut product = 1;
-	for i in r {
-		let idx = coords_2D_to_1D(i.0, i.1, 20, 20).unwrap();
-		println!("{:?}", i);
-		println!("{:?}", grid[idx as usize]);
-		product *= grid[idx as usize];
+
+	let mut largest_product = 0;
+	for (num, _) in grid.iter().enumerate() {
+		let coords = coords_1D_to_2D(num, 20);
+		for dir in Direction::into_enum_iter() {
+			let mut product = 1;
+			let c = get_collection_from_direction(coords.0, coords.1, &dir, 4, 20, 20);
+			for i in c {
+				let idx = coords_2D_to_1D(i.0, i.1, 20, 20).unwrap();
+				product *= grid[idx];
+				if product > largest_product { largest_product = product }
+			}
+		}
 	}
-	product
+	largest_product
 }
 
 fn get_collection_from_direction(init_x: u32, init_y: u32, dir: &Direction, len: u32, width: u32, height: u32) -> Vec<(u32, u32)> {
@@ -63,9 +72,15 @@ fn get_collection_from_direction(init_x: u32, init_y: u32, dir: &Direction, len:
 	r
 }
 
-fn coords_2D_to_1D(x: u32, y: u32, width: u32, height: u32) -> Option<u32>{
+fn coords_1D_to_2D(idx: usize, width: u32) -> (u32, u32) {
+	let x = idx as u32 % width;
+	let y = idx as u32 / width;
+	(x, y)
+}
+
+fn coords_2D_to_1D(x: u32, y: u32, width: u32, height: u32) -> Option<usize>{
 	if x >= width || y >= height { return None; }
-	Some(x + (y * width))
+	Some(x as usize + (y as usize * width as usize))
 }
 
 fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,) -> Option<(u32, u32)> {
