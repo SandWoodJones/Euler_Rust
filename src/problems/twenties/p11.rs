@@ -72,12 +72,14 @@ fn get_collection_from_direction(init_x: u32, init_y: u32, dir: &Direction, len:
 	r
 }
 
+#[allow(non_snake_case)]
 fn coords_1D_to_2D(idx: usize, width: u32) -> (u32, u32) {
 	let x = idx as u32 % width;
 	let y = idx as u32 / width;
 	(x, y)
 }
 
+#[allow(non_snake_case)]
 fn coords_2D_to_1D(x: u32, y: u32, width: u32, height: u32) -> Option<usize>{
 	if x >= width || y >= height { return None; }
 	Some(x as usize + (y as usize * width as usize))
@@ -127,6 +129,7 @@ fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,)
 	offset_2D_coords(x, y, xoffset, yoffset, width -1, height - 1)
 }
 
+#[allow(non_snake_case)]
 fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_lmt: u32) -> Option<(u32, u32)> {
 	let new_x = x as i64 + xofs as i64;
 	let new_y = y as i64 + yofs as i64;
