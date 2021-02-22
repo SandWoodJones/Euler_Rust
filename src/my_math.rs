@@ -23,10 +23,20 @@ pub fn trial_division(mut n: u64) -> Vec<u64> { // returns vector of all prime f
 }
 
 pub fn is_prime(n: u64) -> bool {
-	match trial_division(n).len() {
-		1 => true,
-		_ => false
+	if n <= 1 { return false; }
+	if n < 4 { return true; } // 2 & 3 are prime
+	if n % 2 == 0 { return false; } // 2 is the only even prime number
+	if n < 9 { return true; } // every odd single digit number except 9 is prime
+
+	let root = (n as f64).sqrt().floor() as u64;
+	let mut factor = 5;
+	while factor <= root { // any number N can only have 1 factor greater than its root, and that is N itself.
+		if n % factor == 0 { return false; }
+		if n % factor + 2 == 0 { return false; }
+		factor += 6; // every prime greater than 3 can be written as 6k+/-1. 7 = 6*1+1; 11 = 6*2-1; 101 = 6*17-1
 	}
+
+	true
 }
 
 pub fn generate_primes(limit: u64) -> Vec<u64> {
