@@ -53,20 +53,22 @@ pub fn generate_primes(limit: u64) -> Vec<u64> {
 
 pub fn get_prime(n: u64) -> u64 {
 	if n <= 2 {
-		return n+1;
+		return n+1; // the first prime is 2 and the second is 3
 	}
 
-	let mut found = 2;
+	let mut found = 2; // we already got 2 and 3
 	let mut i = 5;
 
 	loop {
 		if is_prime(i) {
 			found += 1;
-			if found == n {
-				return i;
-			}
+			if found == n { return i; }
 		}
-		i += 2;
+		if is_prime(i + 2) {
+			found += 1;
+			if found == n { return i + 2; }
+		}
+		i += 6; // every prime greater than 3 can be represented as 6k+/-1
 	}
 }
 
@@ -137,4 +139,19 @@ pub fn generate_py_triplet(n: i32, m: i32) -> Option<[i32; 3]> { // returns a py
 	let c = m.pow(2) + n.pow(2);
 
 	Some([a, b, c])
+}
+
+pub fn get_all_divisors(n: u64) -> Vec<u64> { // returns an unordered list of all numbers that divide n evenly
+	let mut divisors = Vec::new();
+
+	let root = (n as f64).sqrt().round() as u64;
+	for i in 1 ..= root {
+		if n % i == 0 {
+			divisors.push(i);
+			if n / i != i {
+				divisors.push(n / i);
+			}
+		}
+	}
+	divisors
 }
