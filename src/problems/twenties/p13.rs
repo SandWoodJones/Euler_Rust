@@ -68,6 +68,31 @@ pub fn answer() -> i32 {
 			37107  // 10^45
 		]; */
 
-	println!("{}", big_n);
+	let n = String::from("37107287533902102798797998220837590246510135740250");
 	1
+}
+
+// separates the numbers into 100 vectors, each with 10 sets of 5 digit numbers
+fn separate_into_vectors(n: &String) -> Vec<Vec<String>> {
+	use std::cmp::max;
+
+	let mut lines = Vec::new();
+	let mut result = Vec::new();
+
+	let mut j = 50;
+	for i in (0 .. n.len()).step_by(50) {
+		lines.push(n[i .. j].to_string());
+		j += 50;
+	}
+
+	for line in lines {
+		let mut new_line = Vec::new();
+		for i in (5 ..= line.len()).step_by(5) {
+			let last = max(0, i as i32 - 5);
+			new_line.push(line[last as usize .. i].to_string());
+		}
+		result.push(new_line);
+	}
+
+	result
 }
