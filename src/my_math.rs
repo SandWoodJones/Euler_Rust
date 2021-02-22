@@ -30,7 +30,7 @@ pub fn is_prime(n: u64) -> bool {
 
 	let root = (n as f64).sqrt().floor() as u64;
 	let mut factor = 5; // 5 is the smallest number that can be written as 6k+/-1 (6*1-1).
-	while factor <= root { // any number N can only have 1 factor greater than its root, and that is N itself.
+	while factor <= root { // any number N can only have 1 factor greater than its square root, and that is N itself.
 		if n % factor == 0 { return false; } // this is equivalent to 6k - 1
 		if n % factor + 2 == 0 { return false; } // and this is equivalent to 6k + 1
 		factor += 6; // every prime greater than 3 can be written as 6k+/-1. 7 = 6*1+1; 11 = 6*2-1; 101 = 6*17-1
@@ -39,19 +39,18 @@ pub fn is_prime(n: u64) -> bool {
 	true
 }
 
-pub fn generate_primes(limit: u64) -> Vec<u64> {
-	let mut v = vec![2];
-	let mut i = 3;
+pub fn generate_primes(limit: u64) -> Vec<u64> { // gets all prime numbers less or equal to limit
+	let mut v = vec![2, 3];
+	let mut i = 5;
 	while i <= limit {
-		if is_prime(i) {
-			v.push(i);
-		}
-		i += 2;
+		if is_prime(i) { v.push(i); }
+		if is_prime(i + 2) { v.push(i + 2) }
+		i += 6;
 	}
 	v
 }
 
-pub fn get_prime(n: u64) -> u64 {
+pub fn get_prime(n: u64) -> u64 { // gets the Nth prime number
 	if n <= 2 {
 		return n+1; // the first prime is 2 and the second is 3
 	}
