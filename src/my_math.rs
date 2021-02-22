@@ -23,16 +23,16 @@ pub fn trial_division(mut n: u64) -> Vec<u64> { // returns vector of all prime f
 }
 
 pub fn is_prime(n: u64) -> bool {
-	if n <= 1 { return false; }
+	if n <= 1 { return false; } // 0 & 1 aren't prime
 	if n < 4 { return true; } // 2 & 3 are prime
 	if n % 2 == 0 { return false; } // 2 is the only even prime number
 	if n < 9 { return true; } // every odd single digit number except 9 is prime
 
 	let root = (n as f64).sqrt().floor() as u64;
-	let mut factor = 5;
+	let mut factor = 5; // 5 is the smallest number that can be written as 6k+/-1 (6*1-1).
 	while factor <= root { // any number N can only have 1 factor greater than its root, and that is N itself.
-		if n % factor == 0 { return false; }
-		if n % factor + 2 == 0 { return false; }
+		if n % factor == 0 { return false; } // this is equivalent to 6k - 1
+		if n % factor + 2 == 0 { return false; } // and this is equivalent to 6k + 1
 		factor += 6; // every prime greater than 3 can be written as 6k+/-1. 7 = 6*1+1; 11 = 6*2-1; 101 = 6*17-1
 	}
 
