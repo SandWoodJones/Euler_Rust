@@ -1,7 +1,6 @@
 /*	Work out the first ten digits of the sum of the following one-hundred 50-digit numbers. */
 
-
-
+#[allow(dead_code)]
 pub fn answer() -> u64 {
 	let big_n: String = String::from(
 		"3710728753390210279879799822083759024651013574025046376937677490009712648124896970078050417018260538

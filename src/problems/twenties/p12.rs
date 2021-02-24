@@ -14,6 +14,7 @@
 
 use crate::my_math::get_all_divisors;
 
+#[allow(dead_code)]
 pub fn answer() -> u64 {
 	let divisors = 500;
 	let mut factors = Vec::new();
