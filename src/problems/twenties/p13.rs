@@ -1,6 +1,8 @@
 /*	Work out the first ten digits of the sum of the following one-hundred 50-digit numbers. */
 
-pub fn answer() -> i32 {
+
+
+pub fn answer() -> u64 {
 	let big_n: String = String::from(
 		"3710728753390210279879799822083759024651013574025046376937677490009712648124896970078050417018260538
 		 7432498619952474105947423330951305812372661730962991942213363574161572522430563301811072406154908250
@@ -54,26 +56,74 @@ pub fn answer() -> i32 {
 		 2084960398013400172393067166682355524525280460972253503534226472524250874054075591789781264330331690"
 	).split_whitespace().collect();
 
-/* 	let big_n =
-		vec![
-			40250, // 10^0
-			01357, // 10^5
-			24651, // 10^10
-			37590, // 10^15
-			82208, // 10^20
-			79799, // 10^25
-			02798, // 10^30
-			39021, // 10^35
-			28753, // 10^40
-			37107  // 10^45
-		]; */
+	let v = separate_into_vectors(&big_n);
 
-	let n = String::from("37107287533902102798797998220837590246510135740250");
-	1
+	let mut sum = v[0].clone();
+	for i in 1 .. v.len() {
+		sum = sum_vectors(&sum, &v[i]);
+	}
+
+	sum.reverse();
+	let mut result = String::new();
+	for n in sum {
+		result.push_str(&n.to_string());
+	}
+
+	// strip result to the first 10 digits, turn it into a number and return it
+	result[0 .. 10].parse::<u64>().unwrap()
+}
+
+fn sum_vectors(n1: &Vec<u32>, n2: &Vec<u32>) -> Vec<u32> {
+	use std::cmp::Ordering;
+
+	let mut result = Vec::new();
+	let mut n1 = n1.clone();
+	let mut n2 = n2.clone();
+
+	match n1.len().cmp(&n2.len()) {
+		Ordering::Greater => { // n1 > n2
+			let difference = n1.len() - n2.len();
+			for _ in 0 .. difference {
+				n2.push(0);
+			}
+		}
+		Ordering::Less => { // n1 < n2
+			let difference = n2.len() - n1.len();
+			for _ in 0 .. difference {
+				n1.push(0);
+			}
+		}
+		Ordering::Equal => () // n1 = n2
+	}
+
+	let mut i = 0;
+	let mut carry = 0;
+	loop {
+		if i == n1.len() {
+			if carry != 0 {
+				result.push(carry);
+			}
+			break;
+		}
+
+		let mut sum = n1[i] + n2[i];
+		sum += carry;
+		carry = 0; // resets the carry
+
+		if sum > 99999 { // if theres a carry over
+			carry = sum / 100000;
+			sum -= 100000;
+		}
+
+		result.push(sum);
+		i += 1;
+	}
+
+	result
 }
 
 // separates the numbers into 100 vectors, each with 10 sets of 5 digit numbers
-fn separate_into_vectors(n: &String) -> Vec<Vec<String>> {
+fn separate_into_vectors(n: &String) -> Vec<Vec<u32>> {
 	use std::cmp::max;
 
 	let mut lines = Vec::new();
@@ -89,8 +139,10 @@ fn separate_into_vectors(n: &String) -> Vec<Vec<String>> {
 		let mut new_line = Vec::new();
 		for i in (5 ..= line.len()).step_by(5) {
 			let last = max(0, i as i32 - 5);
-			new_line.push(line[last as usize .. i].to_string());
+			let new_n: u32 = line[last as usize .. i].parse().unwrap(); // converts the slice into a number
+			new_line.push(new_n);
 		}
+		new_line.reverse();
 		result.push(new_line);
 	}
 
