@@ -31,9 +31,11 @@ pub fn answer() -> u64 {
 
 	for i in separated_big_n {
 		let mut p: u64 = 1;
+
 		for c in i.as_bytes() {
 			p *= *c as u64 - 48; // subtracting by 48 turns a '1' (49 in ascii) into a 1
 		}
+
 		if p > largest_p {
 			largest_p = p;
 		}

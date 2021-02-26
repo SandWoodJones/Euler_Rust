@@ -27,7 +27,6 @@ pub fn answer() -> u64 {
 		triangle_n += i;
 		factors = get_all_divisors(triangle_n);
 		if factors.len() > biggest {
-			println!("{}, {}", triangle_n, factors.len());
 			biggest = factors.len();
 		}
 	}

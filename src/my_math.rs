@@ -131,13 +131,15 @@ pub fn square_of_sum(n: i32) -> i32 {
 	sum.pow(2)
 }
 
-pub fn generate_py_triplet(n: i32, m: i32) -> Option<[i32; 3]> { // returns a pythagorean triple, from 2 numbers
-	if m <= n || n <= 0 { return None }
+pub fn generate_py_triplet(n: i32, m: i32) -> Result<[i32; 3], String> { // returns a pythagorean triple, from 2 numbers
+	if n <= 0 { return Err(String::from("Error: n value must be greater than 0.")); }
+	if m <= n { return Err(String::from("Error: m value must be greater than n value.")); }
+
 	let a = m.pow(2) - n.pow(2);
 	let b = 2 * m * n;
 	let c = m.pow(2) + n.pow(2);
 
-	Some([a, b, c])
+	Ok([a, b, c])
 }
 
 pub fn get_all_divisors(n: u64) -> Vec<u64> { // returns an unordered list of all numbers that divide n evenly

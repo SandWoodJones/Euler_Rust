@@ -6,10 +6,9 @@ use crate::my_math::generate_py_triplet;
 
 #[allow(dead_code)]
 pub fn answer() -> i32 {
-
 	for i in 1 ..= 1000 {
 		for j in i + 1 ..= 1000 {
-			let triplet = generate_py_triplet(i, j).unwrap();
+			let triplet = generate_py_triplet(i, j).expect("Failed to generate pythagorean triplet");
 			if triplet[0] + triplet[1] + triplet[2] == 1000 {
 				return triplet[0] * triplet[1] * triplet[2];
 			}

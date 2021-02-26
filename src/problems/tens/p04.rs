@@ -13,9 +13,10 @@ pub fn answer() -> i32 {
 		for j in i ..= 999 {
 			let r = i * j;
 			if r > largest {
-				match is_palindrome(r) {
-					true => largest = r,
-					false => continue
+				if is_palindrome(r) {
+					largest = r;
+				} else {
+					continue;
 				}
 			}
 		}

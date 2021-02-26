@@ -126,17 +126,22 @@ fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,)
 		}
 	}
 
-	offset_2D_coords(x, y, xoffset, yoffset, width -1, height - 1)
+	match offset_2D_coords(x, y, xoffset, yoffset, width - 1, height - 1) {
+		Ok(t) => Some(t),
+		Err(_) => {
+			None
+		}
+	}
 }
 
 #[allow(non_snake_case)]
-fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_lmt: u32) -> Option<(u32, u32)> {
+fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_lmt: u32) -> Result<(u32, u32), String> {
 	let new_x = x as i64 + xofs as i64;
 	let new_y = y as i64 + yofs as i64;
 
 	if new_x < 0 || new_y < 0 || new_x > xuppr_lmt as i64 || new_y > yuppr_lmt as i64 {
-		return None
+		return Err(String::from("x and y variables must be within the 0 ..= xuppr_lmt and 0 ..= yuppr_lmt ranges"));
 	}
 
-	return Some((new_x as u32, new_y as u32));
+	return Ok((new_x as u32, new_y as u32));
 }

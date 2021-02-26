@@ -9,6 +9,7 @@
 	Which starting number, under one million, produces the longest chain?
 	NOTE: Once the chain starts the terms are allowed to go above one million. */
 
+#[allow(dead_code)]
 pub fn answer() -> u64 {
 	let mut largest = (0, 0); // (start_number, length)
 
@@ -22,6 +23,7 @@ pub fn answer() -> u64 {
 	largest.0
 }
 
+#[allow(dead_code)]
 fn collatz(start: u64) -> Option<Vec<u64>> { // returns a collatz sequence from start to 1
 	if start == 0 { return None; }
 	if start == 1 { return Some(vec![start]); }
