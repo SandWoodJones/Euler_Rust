@@ -156,3 +156,22 @@ pub fn get_all_divisors(n: u64) -> Vec<u64> { // returns an unordered list of al
 	}
 	divisors
 }
+
+pub fn collatz(start: u64) -> Result<Vec<u64>, String> { // returns a vector of a collatz sequence from start to 1
+	if start == 0 { return Err(String::from("0 is an invalid argument")); }
+	if start == 1 { return Ok(vec![start]); }
+	let mut result = Vec::new();
+
+	let mut start = start;
+	while start != 1 {
+		result.push(start);
+		if start % 2 == 0 {
+			start /= 2;
+		} else {
+			start = (start * 3) + 1
+		}
+	}
+
+	result.push(1);
+	Ok(result)
+}

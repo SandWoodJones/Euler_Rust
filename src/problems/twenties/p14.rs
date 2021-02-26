@@ -9,8 +9,11 @@
 	Which starting number, under one million, produces the longest chain?
 	NOTE: Once the chain starts the terms are allowed to go above one million. */
 
+use crate::my_math::collatz;
+
 #[allow(dead_code)]
 pub fn answer() -> u64 {
+
 	let mut largest = (0, 0); // (start_number, length)
 
 	for i in 1 ..= 1_000_000 {
@@ -21,24 +24,4 @@ pub fn answer() -> u64 {
 		}
 	}
 	largest.0
-}
-
-#[allow(dead_code)]
-fn collatz(start: u64) -> Option<Vec<u64>> { // returns a collatz sequence from start to 1
-	if start == 0 { return None; }
-	if start == 1 { return Some(vec![start]); }
-	let mut result = Vec::new();
-
-	let mut start = start;
-	while start != 1 {
-		result.push(start);
-		if start % 2 == 0 {
-			start /= 2;
-		} else {
-			start = (start * 3) + 1
-		}
-	}
-
-	result.push(1);
-	Some(result)
 }
