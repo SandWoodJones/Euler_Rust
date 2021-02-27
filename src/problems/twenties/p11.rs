@@ -131,8 +131,8 @@ fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,)
 	}
 
 	// checks if x and y are withing allowed ranges before sending them to 'offset_2D_coords()'
-	if (0 .. width as i64).contains(&(x as i64 + xoffset as i64)) {
-		if (0 .. height as i64).contains(&(y as i64 + yoffset as i64)) {
+	if (0 .. width as i32).contains(&(x as i32 + xoffset)) {
+		if (0 .. height as i32).contains(&(y as i32 + yoffset)) {
 			return Some(offset_2D_coords(x, y, xoffset, yoffset, width - 1, height - 1).unwrap());
 		}
 	}
@@ -142,13 +142,13 @@ fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,)
 
 #[allow(non_snake_case)]
 fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_lmt: u32) -> Result<(u32, u32), Error> {
-	let new_x = x as i64 + xofs as i64;
-	let new_y = y as i64 + yofs as i64;
+	let new_x = x as i32 + xofs;
+	let new_y = y as i32 + yofs;
 
 	if new_x < 0 { return Err(Error::new(ErrorKind::InvalidData, "x variable must not be negative")); }
 	if new_y < 0 { return Err(Error::new(ErrorKind::InvalidData, "y variable must not be negative")); }
-	if new_x > xuppr_lmt as i64 { return Err(Error::new(ErrorKind::InvalidData, "x variable must be less or equal to xuppr_lmt")); }
-	if new_y > yuppr_lmt as i64 { return Err(Error::new(ErrorKind::InvalidData, "y variable must be less or equal to yuppr_lmt")); }
+	if new_x > xuppr_lmt as i32 { return Err(Error::new(ErrorKind::InvalidData, "x variable must be less or equal to xuppr_lmt")); }
+	if new_y > yuppr_lmt as i32 { return Err(Error::new(ErrorKind::InvalidData, "y variable must be less or equal to yuppr_lmt")); }
 
 	return Ok((new_x as u32, new_y as u32));
 }
