@@ -4,6 +4,7 @@
 	in the 20×20 grid? */
 
 use enum_iterator::IntoEnumIterator;
+use std::io::{Error, ErrorKind};
 
 #[derive(IntoEnumIterator, Debug)]
 enum Direction {
@@ -80,16 +81,19 @@ fn coords_1D_to_2D(idx: usize, width: u32) -> (u32, u32) {
 }
 
 #[allow(non_snake_case)]
-fn coords_2D_to_1D(x: u32, y: u32, width: u32, height: u32) -> Option<usize>{
-	if x >= width || y >= height { return None; }
-	Some(x as usize + (y as usize * width as usize))
+fn coords_2D_to_1D(x: u32, y: u32, width: u32, height: u32) -> Result<usize, Error>{
+	if x >= width || y >= height {
+		return Err(Error::new(ErrorKind::InvalidData, "x and y must be less than width and height respectively"));
+	}
+
+	Ok(x as usize + (y as usize * width as usize))
 }
 
 fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,) -> Option<(u32, u32)> {
 	if x >= width || y >= height { return None; } // we want the x, y to be within the width & height
 
-	let xoffset;
-	let yoffset;
+	let xoffset: i32;
+	let yoffset: i32;
 
 	match dir {
 		Direction::Up => {
@@ -126,22 +130,25 @@ fn get_index_from_dir(x: u32, y: u32, dir: &Direction, width: u32, height: u32,)
 		}
 	}
 
-	match offset_2D_coords(x, y, xoffset, yoffset, width - 1, height - 1) {
-		Ok(t) => Some(t),
-		Err(_) => {
-			None
+	// checks if x and y are withing allowed ranges before sending them to 'offset_2D_coords()'
+	if (0 .. width as i64).contains(&(x as i64 + xoffset as i64)) {
+		if (0 .. height as i64).contains(&(y as i64 + yoffset as i64)) {
+			return Some(offset_2D_coords(x, y, xoffset, yoffset, width - 1, height - 1).unwrap());
 		}
 	}
+
+	None
 }
 
 #[allow(non_snake_case)]
-fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_lmt: u32) -> Result<(u32, u32), String> {
+fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_lmt: u32) -> Result<(u32, u32), Error> {
 	let new_x = x as i64 + xofs as i64;
 	let new_y = y as i64 + yofs as i64;
 
-	if new_x < 0 || new_y < 0 || new_x > xuppr_lmt as i64 || new_y > yuppr_lmt as i64 {
-		return Err(String::from("x and y variables must be within the 0 ..= xuppr_lmt and 0 ..= yuppr_lmt ranges"));
-	}
+	if new_x < 0 { return Err(Error::new(ErrorKind::InvalidData, "x variable must not be negative")); }
+	if new_y < 0 { return Err(Error::new(ErrorKind::InvalidData, "y variable must not be negative")); }
+	if new_x > xuppr_lmt as i64 { return Err(Error::new(ErrorKind::InvalidData, "x variable must be less or equal to xuppr_lmt")); }
+	if new_y > yuppr_lmt as i64 { return Err(Error::new(ErrorKind::InvalidData, "y variable must be less or equal to yuppr_lmt")); }
 
 	return Ok((new_x as u32, new_y as u32));
 }

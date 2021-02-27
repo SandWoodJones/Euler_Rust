@@ -1,3 +1,5 @@
+use std::io;
+
 pub fn trial_division(mut n: u64) -> Vec<u64> { // returns vector of all prime factors of 'n', if its length is 2, 'n' is prime
 	if n <= 1 {
 		return vec![n];
@@ -157,8 +159,11 @@ pub fn get_all_divisors(n: u64) -> Vec<u64> { // returns an unordered list of al
 	divisors
 }
 
-pub fn collatz(start: u64) -> Result<Vec<u64>, String> { // returns a vector of a collatz sequence from start to 1
-	if start == 0 { return Err(String::from("0 is an invalid argument")); }
+pub fn collatz(start: u64) -> Result<Vec<u64>, io::Error> { // returns a vector of a collatz sequence from start to 1
+	if start == 0 {
+		return Err(io::Error::new(io::ErrorKind::InvalidInput, "0 is an invalid starting point"));
+	}
+
 	if start == 1 { return Ok(vec![start]); }
 	let mut result = Vec::new();
 
