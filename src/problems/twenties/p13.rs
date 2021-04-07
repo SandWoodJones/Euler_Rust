@@ -54,12 +54,12 @@ pub fn answer() -> u64 {
 		 7715854250201654509041324580978688277894872185961772107838435069186155435662884062257473692284509516
 		 2084960398013400172393067166682355524525280460972253503534226472524250874054075591789781264330331690"
 	).split_whitespace().collect();
-
+    
 	let v = separate_into_vectors(&big_n);
 
 	let mut sum = v[0].clone();
 	for i in 1 .. v.len() {
-		sum = sum_vectors(&sum, &v[i]);
+		sum = sum_arrays(&sum, &v[i]);
 	}
 
 	sum.reverse();
@@ -72,25 +72,21 @@ pub fn answer() -> u64 {
 	result[0 .. 10].parse::<u64>().unwrap()
 }
 
-fn sum_vectors(n1: &Vec<u32>, n2: &Vec<u32>) -> Vec<u32> {
+fn sum_arrays(n1: &[u32], n2: &[u32]) -> Vec<u32> {
 	use std::cmp::Ordering;
 
 	let mut result = Vec::new();
-	let mut n1 = n1.clone();
-	let mut n2 = n2.clone();
+	let mut n1 = n1.to_vec();
+	let mut n2 = n2.to_vec();
 
 	match n1.len().cmp(&n2.len()) {
 		Ordering::Greater => { // n1 > n2
 			let difference = n1.len() - n2.len();
-			for _ in 0 .. difference {
-				n2.push(0);
-			}
+			n2.resize(n2.len() + difference, 0);
 		}
 		Ordering::Less => { // n1 < n2
 			let difference = n2.len() - n1.len();
-			for _ in 0 .. difference {
-				n1.push(0);
-			}
+			n1.resize(n1.len() + difference, 0);
 		}
 		Ordering::Equal => () // n1 = n2
 	}
@@ -122,7 +118,7 @@ fn sum_vectors(n1: &Vec<u32>, n2: &Vec<u32>) -> Vec<u32> {
 }
 
 // separates the numbers into 100 vectors, each with 10 sets of 5 digit numbers
-fn separate_into_vectors(n: &String) -> Vec<Vec<u32>> {
+fn separate_into_vectors(n: &str) -> Vec<Vec<u32>> {
 	use std::cmp::max;
 
 	let mut lines = Vec::new();

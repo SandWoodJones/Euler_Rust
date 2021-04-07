@@ -1,7 +1,7 @@
-/* 	In the 20×20 grid below, four numbers along a diagonal line have been marked in red.
-	The product of these numbers is 26 × 63 × 78 × 14 = 1788696. What is the greatest product
-	of four adjacent numbers in the same direction (up, down, left, right, or diagonally)
-	in the 20×20 grid? */
+/* In the 20×20 grid below, four numbers along a diagonal line have been marked in red.
+ * The product of these numbers is 26 × 63 × 78 × 14 = 1788696. What is the greatest product
+ * of four adjacent numbers in the same direction (up, down, left, right, or diagonally)
+ * in the 20×20 grid? */
 
 use enum_iterator::IntoEnumIterator;
 use std::io::{Error, ErrorKind};
@@ -150,5 +150,5 @@ fn offset_2D_coords(x: u32, y: u32, xofs: i32, yofs: i32, xuppr_lmt: u32, yuppr_
 	if new_x > xuppr_lmt as i32 { return Err(Error::new(ErrorKind::InvalidData, "x variable must be less or equal to xuppr_lmt")); }
 	if new_y > yuppr_lmt as i32 { return Err(Error::new(ErrorKind::InvalidData, "y variable must be less or equal to yuppr_lmt")); }
 
-	return Ok((new_x as u32, new_y as u32));
+	Ok((new_x as u32, new_y as u32))
 }
